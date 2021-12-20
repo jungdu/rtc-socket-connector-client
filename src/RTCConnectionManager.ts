@@ -26,10 +26,6 @@ export default class RTCConnectionManager {
 	connectionHandler: RTCConnectionHandler;
 
 	constructor(socket: Socket, connectionHandler: RTCConnectionHandler, mediaStream:MediaStream|null = null) {
-		if (!socket.id) {
-			throw new Error("Socket require socketId");
-		}
-
 		this.socket = socket;
 		this.connectionHandler = connectionHandler;
 		this.mediaStream = mediaStream;
@@ -143,6 +139,10 @@ export default class RTCConnectionManager {
 	}
 
 	connect(answerSocketId: string, option: ConnectOption) {
+		if (!this.socket.connect) {
+			throw new Error("Socket require to be connected");
+		}
+
 		const { enableDataChannel, enableMediaStream } = option;
 		if (!(enableDataChannel || enableMediaStream)) {
 			throw new Error("Enable either data channel or media stream");
