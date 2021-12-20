@@ -12,7 +12,7 @@ interface ConnectOption {
 	enableMediaStream?: boolean;
 }
 
-const DEFAULT_ICE_SERVERS = {
+const DEFAULT_RTC_CONFIGURATION = {
 	iceServers: [
 		{ urls: "stun:stun.services.mozilla.com" },
 		{ urls: "stun:stun.l.google.com:19302" },
@@ -21,19 +21,23 @@ const DEFAULT_ICE_SERVERS = {
 
 export default class RTCConnectionManager {
 	socket: RTCClientSocket;
-	mediaStream: null | MediaStream;
 	connectionStorage = new RTCConnectionStorage();
-	connectionHandler: RTCConnectionHandler;
+	mediaStream: MediaStream | null = null;
 
-	constructor(socket: Socket, connectionHandler: RTCConnectionHandler, mediaStream:MediaStream|null = null) {
+	constructor(
+		socket: Socket,
+		private connectionHandler: RTCConnectionHandler,
+		private rtcConfiguration?: RTCConfiguration
+	) {
 		this.socket = socket;
 		this.connectionHandler = connectionHandler;
-		this.mediaStream = mediaStream;
 		this.addSocketHandler(socket);
 	}
 
 	private createConnection(targetSocketId: string) {
-		const connection = new RTCPeerConnection(DEFAULT_ICE_SERVERS);
+		const connection = new RTCPeerConnection(
+			this.rtcConfiguration || DEFAULT_RTC_CONFIGURATION
+		);
 		this.connectionStorage.set(targetSocketId, connection);
 		return connection;
 	}
@@ -76,9 +80,7 @@ export default class RTCConnectionManager {
 		rtcPeerConnection: RTCPeerConnection,
 		targetSocketId: string
 	) {
-		console.log("addTrackHandler");
 		rtcPeerConnection.ontrack = (event) => {
-			console.log("ontrack");
 			if (this.connectionHandler.onTrack) {
 				this.connectionHandler.onTrack(targetSocketId, [...event.streams]);
 			}
@@ -98,7 +100,7 @@ export default class RTCConnectionManager {
 			}
 
 			if (enableMediaStream) {
-				this.addMediaStreamTrack(rtcPeerConnection, this.mediaStream)
+				this.addMediaStreamTrack(rtcPeerConnection, this.mediaStream);
 				this.addTrackHandler(rtcPeerConnection, offerSocketId);
 			}
 
@@ -179,7 +181,7 @@ export default class RTCConnectionManager {
 		});
 	}
 
-	setMediaStream(mediaStream:MediaStream){
+	setMediaStream(mediaStream: MediaStream) {
 		this.mediaStream = mediaStream;
 	}
 }

@@ -76,12 +76,13 @@ Set ```enableDataChannel``` to true to enable DataStream. onDataChannel handlers
 
 # API
 
-### createRTCConnectionManager(socket, handlers)
+### createRTCConnectionManager(socket, handlers, rtcConfiguration)
 **arguments**
 - socket(```Socket```): A socket created to socket server.
 - handlers
   - onTrack(```(socketId, mediaStream) => void```): Triggers when a track has been added to the RTCPeerConnection
   - onDataChannel(```(socketId, dataChannel) => void```): Triggers when new DataChannel is opened.
+  - rtcConfiguration([RTCConfiguration](https://developer.mozilla.org/en-US/docs/Web/API/RTCPeerConnection/RTCPeerConnection))(optional): An object providing options to configure the new WebRTC connection.
 
 ## RTCConnectionManager
 ## methods
@@ -94,7 +95,7 @@ Set ```enableDataChannel``` to true to enable DataStream. onDataChannel handlers
 
 ### setMediaStream(mediaStream)
 **Arguments**
-- mediaStream(```MediaStream```): MediaStream to send to connected client.
+- mediaStream(```MediaStream```): MediaStream which will be transmitted to the other peer.
 
 
 # Resources
