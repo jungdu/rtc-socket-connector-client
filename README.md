@@ -53,13 +53,14 @@ import { createRTCConnectionManager } from "rtc-socket-connector-client";
 const rtcConnectionManager = createRTCConnectionManager(socket, handler);
 ```
 
-### 3. Set MediaStream
+### 4. Set MediaStream (optional)
+Set MediaStream which will be transmitted to the other peer.
 
 ```javascript
 rtcConnectionManager.setMediaStream(mediaStream)
 ```
 
-### 4. Connect to another client
+### 5. Connect to another client
 Clients can be identified by Socket ID.  
 Execute ```RTCConnectionManager.connect``` to start process to connect to the target client.   
 ```javascript
