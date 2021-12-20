@@ -2,7 +2,7 @@ import { Socket } from "socket.io-client";
 import { RTCClientSocket } from "rtc-socket-connector-types";
 import { RTCConnectionStorage } from "./RTCConnectionStorage";
 
-export interface ConnectionHandler {
+export interface RTCConnectionHandler {
 	onDataChannel?: (socketId: string, dataChannel: RTCDataChannel) => void;
 	onTrack?: (socketId: string, streams: MediaStream[]) => void;
 }
@@ -23,9 +23,9 @@ export default class RTCConnectionManager {
 	socket: RTCClientSocket;
 	mediaStream: null | MediaStream;
 	connectionStorage = new RTCConnectionStorage();
-	connectionHandler: ConnectionHandler;
+	connectionHandler: RTCConnectionHandler;
 
-	constructor(socket: Socket, connectionHandler: ConnectionHandler, mediaStream:MediaStream|null = null) {
+	constructor(socket: Socket, connectionHandler: RTCConnectionHandler, mediaStream:MediaStream|null = null) {
 		if (!socket.id) {
 			throw new Error("Socket require socketId");
 		}

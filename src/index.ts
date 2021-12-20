@@ -1,7 +1,7 @@
 import { Socket } from "socket.io-client"
-import RTCConnectionManager, { ConnectionHandler } from "./RTCConnectionManager"
+import RTCConnectionManager, { RTCConnectionHandler } from "./RTCConnectionManager"
 
-function createRTCConnectionManager(socket: Socket, connectionHandler: ConnectionHandler){
+function createRTCConnectionManager(socket: Socket, connectionHandler: RTCConnectionHandler){
   const rtcConnectionManager = new RTCConnectionManager(socket, connectionHandler);
   return rtcConnectionManager;
 }
@@ -14,4 +14,5 @@ export {
   importTest,
   createRTCConnectionManager,
   RTCConnectionManager,
+  RTCConnectionHandler,
 }
