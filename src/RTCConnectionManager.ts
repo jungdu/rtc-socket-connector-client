@@ -5,6 +5,7 @@ import { RTCConnectionStorage } from "./RTCConnectionStorage";
 export interface RTCConnectionHandler {
 	onDataChannel?: (socketId: string, dataChannel: RTCDataChannel) => void;
 	onTrack?: (socketId: string, streams: MediaStream[]) => void;
+	onRTCPeerConnection?: (socketId: string, rtcPeerConnection: RTCPeerConnection) => void;
 }
 
 interface ConnectOption {
@@ -39,6 +40,11 @@ export default class RTCConnectionManager {
 			this.rtcConfiguration || DEFAULT_RTC_CONFIGURATION
 		);
 		this.connectionStorage.set(targetSocketId, connection);
+		
+		if(this.connectionHandler.onRTCPeerConnection){
+			this.connectionHandler.onRTCPeerConnection(targetSocketId, connection);
+		}
+
 		return connection;
 	}
 
