@@ -9,8 +9,8 @@ These two libraries simplify the process required for WebRTC connection.
 
 # How to use
 
-### 1. Connect [socket.io](https://socket.io/) server
-Connect to socket server which is added WebRTC connection handlers by [**rtc-socket-connector-server**](https://github.com/jungdu/rtc-socket-connector-server). 
+### 1. Create socket using [socket.io](https://socket.io/)
+Connect socket server which is added WebRTC connection handlers by [**rtc-socket-connector-server**](https://github.com/jungdu/rtc-socket-connector-server). 
 
 ```javascript
 const socket = io("YOUR SERVER URL");
@@ -23,6 +23,9 @@ const socket = io("YOUR SERVER URL");
 
 ```javascript
 const handler = {
+  onRTCPeerConnection: (socketId, rtcPeerConnection) => {
+    // Use rtcPeerConnection
+  },
   onTrack: (socketId, mediaStream) => {
     // Use mediaStream
   },
@@ -60,7 +63,7 @@ Set MediaStream which will be transmitted to the other peer.
 rtcConnectionManager.setMediaStream(mediaStream)
 ```
 
-### 5. Connect to another client
+### 5. Connect another client
 Clients can be identified by Socket ID.  
 Execute ```RTCConnectionManager.connect``` to start process to connect to the target client.   
 ```javascript
@@ -77,23 +80,30 @@ Set ```enableDataChannel``` to true to enable DataStream. onDataChannel handlers
 # API
 
 ### createRTCConnectionManager(socket, handlers, rtcConfiguration)
+Create RTCConnectionManager
 **arguments**
 - socket(```Socket```): A socket created to socket server.
 - handlers
-  - onTrack(```(socketId, mediaStream) => void```): Triggers when a track has been added to the RTCPeerConnection
-  - onDataChannel(```(socketId, dataChannel) => void```): Triggers when new DataChannel is opened.
-  - rtcConfiguration([RTCConfiguration](https://developer.mozilla.org/en-US/docs/Web/API/RTCPeerConnection/RTCPeerConnection))(optional): An object providing options to configure the new WebRTC connection.
+  - onRTCPeerConnection(```(socketId: string, rtcPeerConnection: RTCPeerConnection)```): Triggers when RTCPeerConnection is created.
+  - onTrack(```(socketId: string, mediaStream: MediaStream[]) => void```): Triggers when a track has been added to the RTCPeerConnection
+  - onDataChannel(```(socketId: string, dataChannel: RTCDataChannel) => void```): Triggers when new DataChannel is opened.  
+- rtcConfiguration([RTCConfiguration](https://developer.mozilla.org/en-US/docs/Web/API/RTCPeerConnection/RTCPeerConnection))(optional): An object providing options to configure the new WebRTC connection.
 
 ## RTCConnectionManager
+RTCConnectionManager is a class that provides method to connect to other clients and to set MediaStream to send to other clients.  
+
 ## methods
-### connect(answerSocketId, option)
+### connect(targetSocketId, option)
+Connect another client that has targetSocketId as a socket id.  
 **Arguments**
 - answerSocketId(```string```): Socket id on another client to connect
 - option
-  - enableDataChannel(```boolean```): Set true to enable DataChannel. onDataStream handler will be executed.
+  - enableDataChannel(```boolean```): Set true to enable DataChannel. DataChannel, the label of which is ```main```, will be open. onDataStream handler will be executed.
   - enableMediaStream(```boolean```): Set true to enable MediaStream. onTrack handler will be executed.
 
 ### setMediaStream(mediaStream)
+Set MediaStream to send to other clients will be connected.  
+MediaStream should be set before connecting other clients.  
 **Arguments**
 - mediaStream(```MediaStream```): MediaStream which will be transmitted to the other peer.
 
