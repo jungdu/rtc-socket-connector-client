@@ -1,7 +1,7 @@
 {
   "mode": "production",
   "name": "rtc-socket-connector-client",
-  "version": "0.1.2",
+  "version": "0.1.5",
   "description": "Connect webRTC connection to  socket server",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -19,5 +19,9 @@
     "rtc-socket-connector-types": "^0.0.7",
     "socket.io": "^4.4.0",
     "socket.io-client": "^4.4.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jungdu/rtc-socket-connector-client"
   }
 }

@@ -49,7 +49,7 @@ export default class RTCConnectionManager {
 	}
 
 	private createDataChannel(rtcPeerConnection: RTCPeerConnection) {
-		const dataChannel = rtcPeerConnection.createDataChannel("arraybuffer");
+		const dataChannel = rtcPeerConnection.createDataChannel("main");
 		dataChannel.binaryType = "arraybuffer";
 		return dataChannel;
 	}
