@@ -45,6 +45,12 @@ export default class RTCConnectionManager {
 			this.connectionHandler.onRTCPeerConnection(targetSocketId, connection);
 		}
 
+		connection.addEventListener('connectionstatechange', (event) => {
+			if(connection.connectionState === "disconnected"){
+				this.connectionStorage.remove(targetSocketId);
+			}
+		})
+
 		return connection;
 	}
 
