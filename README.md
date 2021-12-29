@@ -35,6 +35,8 @@ const handler = {
 }
 
 ```
+```onRTCPeerConnection``` will be executed when new RTCPeerConnection is created.  
+
 ```onTrack``` will be executed when a [track](https://developer.mozilla.org/en-US/docs/Web/API/RTCPeerConnection/track_event) has been added to the RTCPeerConnection.  
  this event is sent when a new incoming MediaStreamTrack has been created and associated with an RTCRtpReceiver.   
 The incoming track to the ```<video>``` element which will be used to display the incoming video.
