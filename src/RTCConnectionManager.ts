@@ -13,10 +13,16 @@ interface ConnectOption {
 	enableMediaStream?: boolean;
 }
 
+// Free stun server
+// https://gist.github.com/sagivo/3a4b2f2c7ac6e1b5267c2f1f59ac6c6b
 const DEFAULT_RTC_CONFIGURATION = {
 	iceServers: [
 		{ urls: "stun:stun.services.mozilla.com" },
 		{ urls: "stun:stun.l.google.com:19302" },
+		{ urls: "stun:stun1.l.google.com:19302" },
+		{ urls: "stun:stun2.l.google.com:19302" },
+		{ urls: "stun:stun3.l.google.com:19302" },
+		{ urls: "stun:stun4.l.google.com:19302" },
 	],
 };
 
