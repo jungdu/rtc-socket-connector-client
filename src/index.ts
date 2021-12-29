@@ -6,12 +6,7 @@ function createRTCConnectionManager(socket: Socket, connectionHandler: RTCConnec
   return rtcConnectionManager;
 }
 
-function importTest(){
-  console.log("Hello World")
-}
-
 export {
-  importTest,
   createRTCConnectionManager,
   RTCConnectionManager,
   RTCConnectionHandler,
