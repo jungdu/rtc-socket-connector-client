@@ -158,7 +158,7 @@ export default class RTCConnectionManager {
 		}
 	}
 
-	connect(answerSocketId: string, option: ConnectOption) {
+	connect(answerSocketId: string, option: ConnectOption): RTCPeerConnection {
 		if (!this.socket.connect) {
 			throw new Error("Socket require to be connected");
 		}
@@ -197,6 +197,8 @@ export default class RTCConnectionManager {
 				enableDataChannel: !!enableDataChannel,
 			});
 		});
+
+		return rtcPeerConnection;
 	}
 
 	setMediaStream(mediaStream: MediaStream) {
